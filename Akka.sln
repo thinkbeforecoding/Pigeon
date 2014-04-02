@@ -77,6 +77,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{10C5B1E8
 		build.fsx = build.fsx
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{306DF1A3-22EE-4420-A40F-BEFEA19C29A6}"
+	ProjectSection(SolutionItems) = preProject
+		docs\content\Building-and-Distributing-Akka.NET.md = docs\content\Building-and-Distributing-Akka.NET.md
+		docs\content\Configuration.md = docs\content\Configuration.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug Mono|Any CPU = Debug Mono|Any CPU

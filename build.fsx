@@ -230,6 +230,43 @@ Target "Nuget" <| fun _ ->
 
     DeleteDir workingDir
 
+//--------------------------------------------------------------------------------
+// Documentation
+//--------------------------------------------------------------------------------
+open FSharpFormatting
+
+Target "GenerateDocs" <| fun _ ->
+    let output = "bin/docs"
+    let apiOutput = "bin/docs/api"
+    let source = "docs"
+    let template = "docs/templates/template-project.html"
+    let templatesDir = "docs/templates/reference" 
+    let githubLink = "https://github.com/akkadotnet/akka.net"
+    let projInfo =
+      [ "page-description", "Akka.net"
+        "page-author", separated ", " authors
+        "project-author", separated ", " authors
+        "github-link", githubLink
+        "project-github", githubLink
+        "project-nuget", "https://nuget.org/packages/Akka"
+        "root", "http://akkadotnet.github.io/akka.net"
+        "project-name", "Akka.net" ]
+
+    CleanDir output
+    CreateDocs source output template projInfo
+
+    let dllFiles =
+        !! "./bin/Akka/Akka.dll"
+         // ++ "./bin/Akka.Remote/Akka.Remote.dll"
+          //++ "./bin/Akka.FSharp/Akka.FSharp.dll"
+
+    CleanDir apiOutput
+    CreateDocsForDlls apiOutput templatesDir projInfo (githubLink + "/blob/develop") dllFiles
+
+    //WriteStringToFile false "./docs/.nojekyll" ""
+   
+    CopyDir (output @@ "content") "docs/content" allFiles
+    CopyDir (output @@ "images") "docs/images" allFiles
 
 //--------------------------------------------------------------------------------
 // Help 
