@@ -41,6 +41,8 @@ let libDir = workingDir @@ @"lib\net45\"
 //--------------------------------------------------------------------------------
 // Clean build results
 
+Target "RestorePackages" RestorePackages
+
 Target "Clean" <| fun _ ->
     DeleteDir binDir
 
@@ -295,7 +297,7 @@ Target "Help" <| fun _ ->
 Target "All" DoNothing
 
 // build dependencies
-"Clean" ==> "AssemblyInfo" ==> "Build" ==> "CopyOutput" ==> "BuildRelease"
+"Clean" ==> "RestorePackages" ==> "AssemblyInfo" ==> "Build" ==> "CopyOutput" ==> "BuildRelease"
 
 // tests dependencies
 "CleanTests" ==> "RunTests"
@@ -303,6 +305,7 @@ Target "All" DoNothing
 // nuget dependencies
 "CleanNuget" ==> "BuildRelease" ==> "Nuget"
 
+"BuildRelease" ==> "GenerateDocs"
 
 "BuildRelease" ==> "All"
 "RunTests" ==> "All"
